@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swathi Deshmukh — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f0e8;
+    --accent: #c8502a;
+    --accent2: #2a6bc8;
+    --muted: #7a7060;
+    --card: #ece7dc;
+    --border: #d4cfc5;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── GRAIN OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.35;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 3rem;
+    background: rgba(245,240,232,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 3rem 4rem;
+    gap: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-text {
+    position: absolute;
+    bottom: -2rem;
+    right: -1rem;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(6rem, 18vw, 18rem);
+    font-weight: 700;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(13,13,13,0.07);
+    pointer-events: none;
+    line-height: 1;
+    user-select: none;
+  }
+
+  .hero-left { position: relative; z-index: 1; }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 2rem;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 1.05;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--muted);
+    max-width: 440px;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.85rem 1.75rem;
+    text-decoration: none;
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+    background: transparent;
+    transition: all 0.25s;
+    cursor: pointer;
+  }
+
+  .btn:hover { background: var(--ink); color: var(--paper); }
+
+  .btn-fill {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--paper);
+  }
+
+  .btn-fill:hover { background: #a63e1f; border-color: #a63e1f; color: var(--paper); }
+
+  .hero-right {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    transition: transform 0.2s;
+  }
+
+  .stat-card:hover { transform: translateX(6px); }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    min-width: 60px;
+  }
+
+  .stat-label { font-size: 0.9rem; color: var(--muted); line-height: 1.4; }
+  .stat-label strong { display: block; color: var(--ink); font-weight: 500; }
+
+  .hero-contact {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .contact-item {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: color 0.2s;
+  }
+
+  .contact-item:hover { color: var(--accent); }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 6rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.25rem;
+  }
+
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-group {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 1.75rem;
+  }
+
+  .skill-group-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .skill-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--border);
+    color: var(--ink);
+    background: var(--paper);
+    transition: all 0.2s;
+  }
+
+  .skill-tag:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  /* ── PROJECTS ── */
+  .projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .project-card {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: start;
+    padding: 2rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.3s;
+  }
+
+  .project-card:hover::before { transform: scaleY(1); }
+  .project-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+
+  .project-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+  }
+
+  .project-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .project-desc {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .tech-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    padding: 0.25rem 0.6rem;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    color: var(--accent2);
+  }
+
+  .project-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    border: 1px solid var(--ink);
+    padding: 0.6rem 1rem;
+    white-space: nowrap;
+    align-self: flex-start;
+    transition: all 0.2s;
+  }
+
+  .project-link:hover { background: var(--ink); color: var(--paper); }
+
+  /* ── EXPERIENCE & EDUCATION ── */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0.5rem; bottom: 0.5rem;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .timeline-item {
+    position: relative;
+    padding: 1.75rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2.35rem;
+    top: 1.85rem;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--paper);
+  }
+
+  .timeline-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  .timeline-sub {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .timeline-points {
+    list-style: none;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  .timeline-points li { padding-left: 1rem; position: relative; }
+  .timeline-points li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 0.8rem; }
+
+  /* ── GRID LAYOUT FOR EXP+EDU ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-style: italic;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .footer-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-left > * {
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards;
+  }
+
+  .hero-left > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-left > *:nth-child(2) { animation-delay: 0.25s; }
+  .hero-left > *:nth-child(3) { animation-delay: 0.4s; }
+  .hero-left > *:nth-child(4) { animation-delay: 0.55s; }
+
+  .hero-right > * {
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards;
+  }
+
+  .hero-right > *:nth-child(1) { animation-delay: 0.3s; }
+  .hero-right > *:nth-child(2) { animation-delay: 0.45s; }
+  .hero-right > *:nth-child(3) { animation-delay: 0.6s; }
+  .hero-right > *:nth-child(4) { animation-delay: 0.75s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1rem; }
+
+    #hero {
+      grid-template-columns: 1fr;
+      padding: 7rem 1.5rem 4rem;
+      gap: 3rem;
+    }
+
+    section { padding: 4rem 1.5rem; }
+    .two-col { grid-template-columns: 1fr; gap: 3rem; }
+
+    .project-card { grid-template-columns: 1fr; }
+    footer { padding: 2rem 1.5rem; }
+  }
+
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">Swathi Deshmukh</a>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero" style="max-width:100%; padding-top:8rem; padding-bottom:4rem;">
+  <div class="hero-left">
+    <div class="hero-tag">Information Science Engineering Student</div>
+    <h1>Building <em>Intelligent</em> Digital Solutions</h1>
+    <p class="hero-desc">
+      Motivated 3rd-year ISE student at NIE Mysuru with a passion for full-stack web development and machine learning. Eager to contribute to impactful real-world software projects.
+    </p>
+    <div class="hero-ctas">
+      <a href="https://github.com/swathideshmukh" target="_blank" class="btn btn-fill">GitHub Profile</a>
+      <a href="mailto:deshmukhswathi19@gmail.com" class="btn">Get In Touch</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="stat-card">
+      <div class="stat-num">3+</div>
+      <div class="stat-label">
+        <strong>Live Projects</strong>
+        Deployed & accessible online
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">2</div>
+      <div class="stat-label">
+        <strong>Domains</strong>
+        Full-Stack Web & Machine Learning
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">6+</div>
+      <div class="stat-label">
+        <strong>Languages</strong>
+        Java, JavaScript, Python, SQL, C, C++
+      </div>
+    </div>
+    <div class="hero-contact">
+      <a href="tel:+919380473177" class="contact-item">📞 +91 9380473177</a>
+      <a href="mailto:deshmukhswathi19@gmail.com" class="contact-item">✉ deshmukhswathi19@gmail.com</a>
+      <a href="https://github.com/swathideshmukh" target="_blank" class="contact-item">⌥ github.com/swathideshmukh</a>
+    </div>
+  </div>
+
+  <div class="hero-bg-text" aria-hidden="true">SD</div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" style="background:none; border-top: 1px solid var(--border);">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2>Technical Skills</h2>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <div class="skill-group-title">Programming Languages</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Java</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">SQL</span>
+        <span class="skill-tag">C</span>
+        <span class="skill-tag">C++</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Web Technologies</div>
+      <div class="skill-tags">
+        <span class="skill-tag">HTML5</span>
+        <span class="skill-tag">CSS3</span>
+        <span class="skill-tag">React.js</span>
+        <span class="skill-tag">Node.js</span>
+        <span class="skill-tag">REST APIs</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Tools & Platforms</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">GitHub</span>
+        <span class="skill-tag">Postman</span>
+        <span class="skill-tag">VS Code</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Core Concepts</div>
+      <div class="skill-tags">
+        <span class="skill-tag">AI/ML Basics</span>
+        <span class="skill-tag">DSA</span>
+        <span class="skill-tag">OOP</span>
+        <span class="skill-tag">DBMS</span>
+        <span class="skill-tag">OS</span>
+        <span class="skill-tag">Networks</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Core Competencies</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Problem Solving</span>
+        <span class="skill-tag">Debugging</span>
+        <span class="skill-tag">UI/UX</span>
+        <span class="skill-tag">Analytical Thinking</span>
+        <span class="skill-tag">Team Collaboration</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" style="border-top: 1px solid var(--border);">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2>Projects</h2>
+  </div>
+  <div class="projects-list">
+
+    <div class="project-card">
+      <div>
+        <div class="project-type">Full-Stack · E-Commerce</div>
+        <div class="project-title">ShopKart</div>
+        <p class="project-desc">A responsive e-commerce web application built with React, featuring product listings, cart functionality, and user-friendly navigation simulating a real online shopping experience.</p>
+        <div class="project-tech">
+          <span class="tech-pill">React.js</span>
+          <span class="tech-pill">JavaScript</span>
+          <span class="tech-pill">CSS3</span>
+          <span class="tech-pill">Vercel</span>
+        </div>
+      </div>
+      <a href="https://shop-kart-ten.vercel.app/" target="_blank" class="project-link">View Live ↗</a>
+    </div>
+
+    <div class="project-card">
+      <div>
+        <div class="project-type">Machine Learning · NLP</div>
+        <div class="project-title">News Article Classifier</div>
+        <p class="project-desc">A Streamlit-based web application that lets users paste news articles and classify them into categories — business, politics, sports, technology, and entertainment — using NLP and ML techniques.</p>
+        <div class="project-tech">
+          <span class="tech-pill">Python</span>
+          <span class="tech-pill">Streamlit</span>
+          <span class="tech-pill">NLP</span>
+          <span class="tech-pill">Scikit-learn</span>
+        </div>
+      </div>
+      <a href="https://news-article-classification-kprjqpekt2btv7uwnvqkec.streamlit.app/" target="_blank" class="project-link">View Live ↗</a>
+    </div>
+
+    <div class="project-card">
+      <div>
+        <div class="project-type">Full-Stack · Rural Tourism</div>
+        <div class="project-title">Village Stay</div>
+        <p class="project-desc">A rural tourism web application showcasing village homestays with category and region-based filtering, animated UI, and detailed stay pages complete with activities and booking options.</p>
+        <div class="project-tech">
+          <span class="tech-pill">React.js</span>
+          <span class="tech-pill">CSS Animations</span>
+          <span class="tech-pill">JavaScript</span>
+          <span class="tech-pill">Vercel</span>
+        </div>
+      </div>
+      <a href="https://village-stay.vercel.app/" target="_blank" class="project-link">View Live ↗</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE + EDUCATION -->
+<div class="two-col" style="padding: 0 3rem 6rem; max-width:1200px; margin:0 auto; border-top: 1px solid var(--border); padding-top:6rem;">
+
+  <div id="experience">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2>Experience</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">Dec 2025 – Jan 2026 · Remote</div>
+        <div class="timeline-title">Web Developer Intern</div>
+        <div class="timeline-sub">Clinch Metrics Bridge</div>
+        <ul class="timeline-points">
+          <li>Hands-on experience in real-world web development projects</li>
+          <li>Built responsive UIs using HTML, CSS, JavaScript, and React</li>
+        </ul>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">Certified Training</div>
+        <div class="timeline-title">Data Science & ML</div>
+        <div class="timeline-sub">AICTE–MCA–MSME Govt. Certified</div>
+        <ul class="timeline-points">
+          <li>Government-certified training in Data Science and ML fundamentals</li>
+          <li>Covered data preprocessing, EDA, and basic ML under expert mentorship</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="education">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2>Education</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">2023 – 2027</div>
+        <div class="timeline-title">B.E. Information Science & Engineering</div>
+        <div class="timeline-sub">The National Institute of Engineering, Mysuru</div>
+        <ul class="timeline-points">
+          <li>3rd Year (Ongoing)</li>
+        </ul>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2021 – 2023</div>
+        <div class="timeline-title">PU — Science Stream</div>
+        <div class="timeline-sub">S. Basveshwar Residential PU College, Kalaburagi</div>
+        <ul class="timeline-points">
+          <li>Scored 86.5%</li>
+        </ul>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2020 – 2021</div>
+        <div class="timeline-title">Class X · CBSE</div>
+        <div class="timeline-sub">Appa Public School, Kalaburagi</div>
+        <ul class="timeline-points">
+          <li>Scored 76.61%</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-name">Swathi Deshmukh</span>
+  <div class="footer-links">
+    <a href="mailto:deshmukhswathi19@gmail.com">Email</a>
+    <a href="tel:+919380473177">Phone</a>
+    <a href="https://github.com/swathideshmukh" target="_blank">GitHub</a>
+  </div>
+</footer>
+
+</body>
+</html>
